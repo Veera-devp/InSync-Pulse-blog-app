@@ -40,4 +40,5 @@ public class CommentController {
         commentService.createComment(postUrl, commentDto);
         return "redirect:/post/" + postUrl;
     }
+    
 }

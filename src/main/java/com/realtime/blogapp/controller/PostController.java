@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.realtime.blogapp.dto.CommentDto;
 import com.realtime.blogapp.dto.PostDto;
+import com.realtime.blogapp.service.CommentService;
 import com.realtime.blogapp.service.PostService;
 
 import jakarta.validation.Valid;
@@ -20,9 +22,11 @@ import jakarta.validation.Valid;
 public class PostController {
 
       private PostService postService;
+      private CommentService commentService;
 
-      public PostController(PostService postService) {
+      public PostController(PostService postService, CommentService commentService) {
             this.postService = postService;
+            this.commentService = commentService;
       }
 
       @GetMapping("/admin/posts")
@@ -30,6 +34,19 @@ public class PostController {
             List<PostDto> posts = postService.findallPosts();
             model.addAttribute("posts", posts);
             return "/admin/posts";
+      }
+
+      @GetMapping("/admin/posts/comments")
+      public String postComments(Model model) {
+            List<CommentDto> comments = commentService.findAllComments();
+            model.addAttribute("comments", comments);
+            return "admin/comments";
+      }
+
+      @GetMapping("/admin/posts/comments/{commentId}")
+      public String deleteComment(@PathVariable("commentId") Long commentId) {
+            commentService.deleteComment(commentId);
+            return "redirect:/admin/posts/comments";
       }
 
       @GetMapping("admin/posts/newpost")
