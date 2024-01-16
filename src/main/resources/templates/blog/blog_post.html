@@ -2,10 +2,9 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
 >
-<div th:replace="~{blog/header :: header}"></div>
-
+<div th:replace="blog/header :: header"></div>
 <body>
-    <div th:replace="~{blog/header :: navbar}"></div>
+<div th:replace="blog/header :: navbar"></div>
 <br /><br />
 <div class="container">
     <div class="row">
@@ -98,11 +97,11 @@
 
         <div class="col-md-3">
         <!-- search bar goes here            <-->
-        <div th:replace="~{blog/search :: search}"></div>
+            <div th:replace="blog/search :: search"></div>
         </div>
     </div>
     <br /><br /><br />
 </div>
-<div th:replace="~{blog/footer :: footer}"></div>
+<div th:replace="blog/footer :: footer"></div>
 </body>
 </html>
