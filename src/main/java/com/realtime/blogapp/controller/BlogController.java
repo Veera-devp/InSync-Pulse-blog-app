@@ -1,4 +1,5 @@
 package com.realtime.blogapp.controller;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.realtime.blogapp.dto.CommentDto;
 import com.realtime.blogapp.dto.PostDto;
 import com.realtime.blogapp.service.PostService;
-import java.util.*;
 
 @Controller
 public class BlogController {
@@ -19,12 +19,16 @@ public class BlogController {
     public BlogController(PostService postService) {
         this.postService = postService;
     }
+
+    // handler method to handle http://localhost:8080/
     @GetMapping("/")
     public String viewBlogPosts(Model model){
         List<PostDto> postsResponse = postService.findallPosts();
         model.addAttribute("postsResponse", postsResponse);
         return "blog/view_posts";
     }
+
+    // handler method to handle view post request
     @GetMapping("/post/{postUrl}")
     private String showPost(@PathVariable("postUrl") String postUrl,
                             Model model){
@@ -35,6 +39,9 @@ public class BlogController {
         model.addAttribute("comment", commentDto);
         return "blog/blog_post";
     }
+
+    // handler method to handle blog post search request
+    // http://localhost:8080/page/search?query=java
     @GetMapping("/page/search")
     public String searchPosts(@RequestParam(value = "query") String query,
                               Model model){

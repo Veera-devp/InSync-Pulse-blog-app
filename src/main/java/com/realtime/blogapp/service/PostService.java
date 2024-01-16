@@ -7,6 +7,8 @@ import com.realtime.blogapp.dto.PostDto;
 public interface PostService {
       List<PostDto> findallPosts();
 
+      List<PostDto> findPostsByUser();
+
       void createPost(PostDto postDto);
 
       PostDto findPostById(Long postId);

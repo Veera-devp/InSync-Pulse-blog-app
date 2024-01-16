@@ -7,18 +7,35 @@ import org.springframework.stereotype.Service;
 
 import com.realtime.blogapp.dto.PostDto;
 import com.realtime.blogapp.entity.Post;
+import com.realtime.blogapp.entity.User;
 import com.realtime.blogapp.mapper.PostMapper;
 import com.realtime.blogapp.repository.PostRepository;
+import com.realtime.blogapp.repository.UserRepository;
 import com.realtime.blogapp.service.PostService;
+import com.realtime.blogapp.util.SecurityUtils;
 
 @Service
 public class PostServiceImpl implements PostService {
 
       private PostRepository postRepository;
+      private UserRepository userRepository;
 
-      public PostServiceImpl(PostRepository postRepository) {
+      public PostServiceImpl(PostRepository postRepository,
+      UserRepository userRepository) {
             this.postRepository = postRepository;
+            this.userRepository = userRepository;
       }
+
+      @Override
+    public List<PostDto> findPostsByUser() {
+        String email = SecurityUtils.getCurrentUser().getUsername();
+        User createdBy = userRepository.findByEmail(email);
+        Long userId = createdBy.getId();
+        List<Post> posts = postRepository.findPostsByUser(userId);
+        return posts.stream()
+                .map((post) -> PostMapper.mapToPostDto(post))
+                .collect(Collectors.toList());
+    }
 
       @Override
       public List<PostDto> findallPosts() {

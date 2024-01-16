@@ -24,6 +24,8 @@ public class CommentController {
         this.commentService = commentService;
         this.postService = postService;
     }
+
+    // handler method to create form submit request
     @PostMapping("/{postUrl}/comments")
     public String createComment(@PathVariable("postUrl") String postUrl,
                                 @Valid @ModelAttribute("comment") CommentDto commentDto,
@@ -40,5 +42,4 @@ public class CommentController {
         commentService.createComment(postUrl, commentDto);
         return "redirect:/post/" + postUrl;
     }
-    
 }
